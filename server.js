@@ -1,16 +1,17 @@
 import express from "express";
 import mongoose from "mongoose";
-import {
-  ProductController,
-  CategoryController,
-} from "./api/controllers/_index.js";
 import dotenv from "dotenv";
+import {
+  ProductRouter,
+  CategoryRouter,
+  BoxRouter,
+  LoginRouter,
+  ClientRouter,
+  AdministratorRouter,
+  SubscriptionRouter,
+} from "./api/routes/_index.js";
 
 dotenv.config();
-
-const { getAllProducts, getByIdCategory, getByIdCategoryAndName, getByName } =
-  ProductController;
-const { getAllCategories } = CategoryController;
 
 // Connect to db
 await mongoose.connect(process.env.MONGODB_URL);
@@ -22,6 +23,13 @@ mongoose.connection.on("error", function (e) {
 
 // Express
 const app = express();
+app.use(function(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  next();
+});
 
 // Middleware
 app.use(express.json());
@@ -31,14 +39,13 @@ app.get("/", (response) => {
   response.send("CAREBOX API");
 });
 
-// Product
-app.get("/products", getAllProducts);
-app.get("/products/listByIdCategory", getByIdCategory);
-app.get("/products/listByIdCategoryAndName", getByIdCategoryAndName);
-app.get("/products/listByName", getByName);
-
-// Category
-app.get("/categories", getAllCategories);
+app.use("/", ProductRouter);
+app.use("/", CategoryRouter);
+app.use("/", BoxRouter);
+app.use("/", LoginRouter);
+app.use("/", ClientRouter);
+app.use("/", AdministratorRouter);
+app.use("/", SubscriptionRouter);
 
 // Launch server
 app.listen(process.env.PORT || 3000, "0.0.0.0", () => {

@@ -21,7 +21,10 @@ export const getByIdCategory = async (req, res) => {
 
 export const getByIdCategoryAndName = async (req, res) => {
   const { idCategory: idCategory, name: name } = req.query;
-  const products = await Product.find({ name: name, category: idCategory });
+  const products = await Product.find({
+    name: { $regex: name },
+    category: idCategory,
+  });
   res.json({
     status: 1,
     message: "Productos encontrados",
@@ -31,7 +34,7 @@ export const getByIdCategoryAndName = async (req, res) => {
 
 export const getByName = async (req, res) => {
   const { name: name } = req.query;
-  const products = await Product.find({ name: name });
+  const products = await Product.find({ name: { $regex: name } });
   res.json({
     status: 1,
     message: "Productos encontrados",
