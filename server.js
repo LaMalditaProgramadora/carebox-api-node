@@ -35,8 +35,8 @@ app.use(function(req, res, next) {
 app.use(express.json());
 
 // Routes
-app.get("/", (response) => {
-  response.send("CAREBOX API");
+app.get("/", (req, res) => {
+  res.send("CAREBOX API");
 });
 
 app.use("/", ProductRouter);
