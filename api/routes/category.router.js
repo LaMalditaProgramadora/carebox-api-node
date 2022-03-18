@@ -1,6 +1,7 @@
 import express from "express";
 
 import { CategoryController } from "../controllers/_index.js";
+import { validateToken } from "../middlewares/_index.js";
 
 const { getAllCategories } = CategoryController;
 
@@ -10,6 +11,6 @@ const categoryRouters = {
   GET_ALL_CATEGORIES: "/categories",
 };
 
-router.get(categoryRouters.GET_ALL_CATEGORIES, getAllCategories);
+router.get(categoryRouters.GET_ALL_CATEGORIES, validateToken, getAllCategories);
 
 export default router;

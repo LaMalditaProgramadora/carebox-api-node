@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors";
 import {
   ProductRouter,
   CategoryRouter,
@@ -23,15 +24,9 @@ mongoose.connection.on("error", function (e) {
 
 // Express
 const app = express();
-app.use(function(req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  next();
-});
 
 // Middleware
+app.use(cors());
 app.use(express.json());
 
 // Routes

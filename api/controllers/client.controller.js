@@ -2,8 +2,10 @@ import { Client } from "../models/_index.js";
 
 export const getById = async (req, res) => {
   const { idClient: idClient } = req.query;
-  // TODO: Ocultar password
-  const client = await Client.findById(idClient).populate("userLogin");
+  const client = await Client.findById(idClient).populate(
+    "userLogin",
+    "-password"
+  );
   res.json({
     status: 1,
     message: "Cliente encontrado",

@@ -1,6 +1,6 @@
 import express from "express";
 import { getAllByEmail } from "../controllers/subscription.controller.js";
-
+import { validateToken } from "../middlewares/_index.js";
 import { SubscriptionController } from "../controllers/_index.js";
 
 const {
@@ -27,16 +27,29 @@ const subscriptionRoutes = {
   UPDATE_DELIVERY: "/subscriptions/update",
 };
 
-router.post(subscriptionRoutes.CREATE_SUBSCRIPTION, createSubscription);
-router.delete(subscriptionRoutes.CANCEL, cancel);
-router.get(subscriptionRoutes.GET_BY_ID_CLIENT, getByIdClient);
-router.get(subscriptionRoutes.GET_ALL, getAll);
-router.get(subscriptionRoutes.GET_ALL_BY_EMAIL, getAllByEmail);
-router.get(subscriptionRoutes.GET_TODAY_SUBSCRIPTIONS, getTodaySubscriptions);
+router.post(
+  subscriptionRoutes.CREATE_SUBSCRIPTION,
+  validateToken,
+  createSubscription
+);
+router.delete(subscriptionRoutes.CANCEL, validateToken, cancel);
+router.get(subscriptionRoutes.GET_BY_ID_CLIENT, validateToken, getByIdClient);
+router.get(subscriptionRoutes.GET_ALL, validateToken, getAll);
+router.get(subscriptionRoutes.GET_ALL_BY_EMAIL, validateToken, getAllByEmail);
+router.get(
+  subscriptionRoutes.GET_TODAY_SUBSCRIPTIONS,
+  validateToken,
+  getTodaySubscriptions
+);
 router.get(
   subscriptionRoutes.GET_TODAY_SUBSCRIPTIONS_BY_EMAIL,
+  validateToken,
   getTodaySubscriptionsByEmail
 );
-router.put(subscriptionRoutes.UPDATE_DELIVERY, updateDeliveredThisMonth);
+router.put(
+  subscriptionRoutes.UPDATE_DELIVERY,
+  validateToken,
+  updateDeliveredThisMonth
+);
 
 export default router;
