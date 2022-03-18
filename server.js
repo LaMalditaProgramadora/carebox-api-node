@@ -15,7 +15,7 @@ import {
 dotenv.config();
 
 // Connect to db
-await mongoose.connect(process.env.MONGODB_URL);
+await mongoose.connect(process.env.MONGODB_CAREBOX_URL);
 
 // Listener to connection error
 mongoose.connection.on("error", function (e) {
