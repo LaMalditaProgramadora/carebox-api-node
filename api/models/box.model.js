@@ -10,6 +10,7 @@ const schemaBox = {
       ref: "Product",
     },
   ],
+  image: String,
 };
 
 const Box = mongoose.model("Box", schemaBox, "boxes");

@@ -1,7 +1,10 @@
 import express from "express";
 
-import { BoxController } from "../controllers/_index.js";
+import { BoxController, ImageController } from "../controllers/_index.js";
 import { validateToken } from "../middlewares/_index.js";
+import multer from "multer";
+
+const fileUpload = multer();
 
 const {
   createStandardBox,
@@ -15,6 +18,8 @@ const {
   getCustomBoxes,
   getCustomBoxesByName,
 } = BoxController;
+
+const { uploadBoxImage } = ImageController;
 
 const router = express.Router();
 
@@ -31,6 +36,7 @@ const boxRouters = {
     "/boxes/listStandardByMinPriceAndMaxPrice",
   GET_CUSTOM_BOXES: "/boxes/listCustom",
   GET_CUSTOM_BOXES_BY_NAME: "/boxes/listCustomByName",
+  UPLOAD_IMAGE_BOX: "/boxes/uploadImage",
 };
 
 router.post(boxRouters.CREATE_STANDARD_BOX, validateToken, createStandardBox);
@@ -52,6 +58,11 @@ router.get(
   boxRouters.GET_CUSTOM_BOXES_BY_NAME,
   validateToken,
   getCustomBoxesByName
+);
+router.post(
+  boxRouters.UPLOAD_IMAGE_BOX,
+  fileUpload.single("image"),
+  uploadBoxImage
 );
 
 export default router;
