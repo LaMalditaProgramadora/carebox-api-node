@@ -16,6 +16,7 @@ export const createStandardBox = async (req, res) => {
       isCustom: false,
       price: price.toFixed(2),
       products: products,
+      image: boxDto.image,
     });
     const newBox = await box.save();
     res.json({
@@ -44,6 +45,7 @@ export const createCustomBox = async (req, res) => {
       isCustom: true,
       price: price.toFixed(2),
       products: products,
+      image: boxDto.image,
     });
     const newBox = await box.save();
     let client = await Client.findById(boxDto.idClient).populate("boxes");
@@ -74,6 +76,7 @@ export const updateBox = async (req, res) => {
     box.price = price.toFixed(2);
     box.name = boxDto.name;
     box.products = products;
+    box.image = boxDto.image;
     const updateBox = await box.save();
 
     res.json({
